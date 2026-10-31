@@ -87,7 +87,7 @@ button {
   background: transparent;
   padding: 0;
   position: absolute;
-  top: 1rem;
+  top: 2.5rem;
   right: 2rem;
   #hamToX {
     width: 36px;
@@ -362,7 +362,7 @@ button {
 .shows {
   grid-column: middle;
   padding-block: 4rem;
-  margin-inline-start: 2rem;
+  margin-inline-start: 4rem;
   display: flex;
   flex-direction: column;
   .shows__list {
@@ -474,6 +474,9 @@ html:has(#showShowsDialog[open]) {
     background-color: rgb(0 0 0 / 0.9);
   }
 @media (max-width: 40rem) {
+  .hamburger-menu-button {
+    top: 1rem;
+  }
   .shows-section .shows-image {
     grid-column: full;
     aspect-ratio: 3 / 2;
