@@ -1,0 +1,23 @@
+<dialog id="showShowsDialog">
+  <div class="dialog-panel">
+    <button class="btn closeModalButton">{% include "icon-x-close.njk" %}</button>
+    <div class="shows">
+      <header class="shows__header">
+        {% include "icon-calendar.njk" %}
+        <h2>FULL 2026 SCHEDULE</h2>
+      </header>
+      <ul class="shows__list">
+        {% for show in shows %}
+          <li>
+            <h3>{{ show.date | showDate | safe }}</h3>
+            <p>@{{ show.venue }}</p>
+            <p>{{ show.address | safe }}</p>
+            <p class="times">
+              <strong>Sign up at {{ show.signup }}, Music begins at {{ show.start }}</strong>
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</dialog>

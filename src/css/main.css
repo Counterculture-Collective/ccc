@@ -1,46 +1,486 @@
-@import './reset.css';
+@import "./reset.css";
 
 :root {
-  --font-sans-stack: Inter, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-sans-stack:
+    "Roboto", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --color-global-text: rgb(246 247 62);
+  scroll-behavior: smooth;
 }
 
 body {
   background: black;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-block: 1rem;
+  font-weight: 700;
 }
-h1, h2, h3, h4, h5, h6, a, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p,
+label {
   font-family: var(--font-sans-stack);
-  color: white;
+  color: var(--color-global-text);
 }
-.site-shell {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  width: min(60rem, calc(100% - 4rem));
-  margin: 0 auto;
-}
-
 h1 {
   font-size: 3rem;
-  text-align: center;
 }
 h2 {
   font-size: 1.5rem;
 }
+strong {
+  font-weight: 700;
+}
+small {
+  font-size: 0.7em;
+}
+li + li {
+  margin-block-start: 2rem;
+}
+p {
+  line-height: 1.2;
+  font-weight: 300;
+}
+button {
+  background: none;
+  color: var(--color-global-text);
+  cursor: pointer;
+}
+.site-shell {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(2rem, 1fr)
+    [content-start] minmax(0, 30rem)
+    [middle] minmax(0, 30rem)
+    [content-end] minmax(2rem, 1fr)
+    [full-end];
+  align-content: start;
+  min-height: 100vh;
+
+  & > * {
+    grid-column: content;
+  }
+}
+
+.site-main {
+  grid-column: full;
+  display: grid;
+  grid-template-columns: subgrid;
+
+  & > * {
+    grid-column: content;
+  }
+}
+
+.hamburger-menu-button {
+  z-index: 5;
+  border: none;
+  background: transparent;
+  padding: 0;
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  #hamToX {
+    width: 36px;
+    line {
+      stroke: var(--color-global-text);
+    }
+    #line1,
+    #line2,
+    #line3 {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: all ease 0.5s;
+    }
+  }
+}
+.animate-ham-to-x {
+  #line1 {
+    transform: translateY(104px) rotate(calc(45deg * 7));
+  }
+  #line2 {
+    opacity: 0;
+  }
+  #line3 {
+    transform: translateY(-104px) rotate(calc(-45deg * 7));
+  }
+}
 
 .main-nav {
-  display: flex;
-  justify-content: center;
-  margin-block: 2rem;
-  a {
-    font-size: 1.2rem;
-  }
-  ul {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 4;
+  overflow: hidden;
+
+  .main-nav__panel {
+    overscroll-behavior: none;
+    position: absolute;
+    inset: 0;
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    flex-direction: column;
+    background-color: black;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-2.5rem);
+    will-change: opacity, transform;
+    padding-block-end: 2rem;
+    transition:
+      opacity 280ms ease,
+      transform 280ms ease;
+    & > div {
+      padding-inline: 1rem;
+    }
+  }
+  .main-nav__panel ul {
+    padding: 0;
+    margin-block-start: 2rem;
+    list-style: none;
+    li + li {
+      margin-block-start: 1rem;
+    }
+    li a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--color-global-text);
+      &:focus-visible {
+        text-decoration: underline;
+        color: white;
+      }
+      @media (hover: hover) {
+        &:hover {
+          text-decoration: underline;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.main-nav[hidden] {
+  display: none;
+}
+
+.main-nav.is-open .main-nav__panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.main-nav.is-closing .main-nav__panel {
+  opacity: 0;
+  transform: translateY(-2.5rem);
+}
+/* Bootstrap 5-style utility for content that should remain accessible to assistive tech. */
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.btn {
+  border: solid 1px var(--color-global-text);
+  border-radius: 999px;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 300;
+  &:focus-visible {
+    background-color: var(--color-global-text);
+    color: black;
+  }
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-global-text);
+      color: black;
+    }
+  }
+}
+.btn--large {
+  padding: 0.75rem 2.5rem;
+  font-size: 1rem;
+}
+.btn--small {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+.site-footer {
+  padding-block: 4rem;
+
+  h2 {
+    text-align: center;
+    font-size: 2rem;
+    span {
+      font-weight: 300;
+      font-size: 2.5rem;
+    }
+  }
+  form {
+    margin-inline: auto;
+    margin-block-start: 2rem;
+    max-width: 24rem;
+    display: flex;
+    flex-direction: column;
+    label {
+      font-weight: 300;
+    }
+    [name="name"],
+    [name="email"],
+    [name="message"] {
+      margin-block: 0.5rem 1rem;
+      width: 100%;
+      background-color: black;
+      border: solid 1px var(--color-global-text);
+      color: var(--color-global-text);
+      padding: 4px;
+      font-family: var(--font-sans-stack);
+    }
+    .form-instructions {
+      text-align: center;
+      margin-block-end: 2rem;
+    }
+    [type="submit"] {
+      align-self: center;
+      flex: 0 1 0;
+    }
+  }
+}
+
+.icon-x-close {
+  color: var(--color-global-text);
+  width: 40px;
+}
+
+/* HOMEPAGE */
+
+.homepage-hero {
+  grid-column: full;
+  display: grid;
+  grid-template-columns: subgrid;
+  background: url(/images/hero-cables.webp) no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding-block: clamp(4rem, 13vw, 8rem);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    inset: 0;
+    background: linear-gradient(to right, transparent, rgb(0 0 0 / 0.8) 50%);
+  }
+
+  & > * {
+    grid-column: full;
+    margin-inline-end: 2rem;
+    z-index: 2;
+  }
+  .hamburger-menu-button {
+    justify-self: content-end;
+  }
+  h1 {
+    text-align: right;
+    font-size: clamp(1.8rem, 7vw, 5rem);
+    text-box: trim-both cap alphabetic;
+    margin-block: 0 2rem;
+  }
+  @supports not (text-box: trim-both cap alphabetic) {
+    h1 {
+      line-height: 1;
+      margin-block: 0 1rem;
+    }
+  }
+  h1 span {
+    font-weight: 300;
+  }
+  .tagline {
+    text-align: right;
+    font-weight: 300;
+    margin-block: 0 2rem;
+    font-size: clamp(0.7rem, 2.5vw, 1.2rem);
+    span + span {
+      margin-inline-start: clamp(1.2rem, 5vw, 2.7rem);
+    }
+  }
+  .hero-nav {
+    text-align: right;
+    img {
+      object-fit: cover;
+    }
+  }
+}
+.shows__header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  grid-column: middle;
+  margin-block: 0 2rem;
+  h2 {
+    font-size: 2rem;
+    margin-block: 0.5rem 0;
+  }
+  .icon-calendar {
+    color: var(--color-global-text);
+    max-width: 75px;
+  }
+}
+.shows-section {
+  grid-column: full;
+  display: grid;
+  grid-template-columns: subgrid;
+  .shows-image {
+    position: relative;
+    overflow: hidden;
+    grid-column-start: full;
+    grid-column-end: middle;
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.shows {
+  grid-column: middle;
+  padding-block: 4rem;
+  margin-inline-start: 2rem;
+  display: flex;
+  flex-direction: column;
+  .shows__list {
+    h3 {
+      margin-block: 0 0.5rem;
+    }
+    .times {
+      margin-block-start: 0.5rem;
+    }
+  }
+  .shows__btn {
+    margin-block-start: 4rem;
+    margin-inline-start: auto;
+  }
+}
+
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url(/images/about-bg.webp) no-repeat;
+  background-size: cover;
+  padding-block: 8rem 16rem;
+  grid-column: full;
+  .about-section__content {
+    max-width: 24rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 2vw, 4rem);
+    background-color: black;
+    margin-inline: 2rem;
+    h2 {
+      font-size: 2rem;
+      margin-block-start: 0;
+    }
+  }
+}
+
+/* The dialog is a transparent full-viewport scroller, so its scrollbar sits at the
+   window edge like the page's. The page itself is locked while it's open. */
+#showShowsDialog {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box; /* else 100% + padding pushes the scrollbar off-screen */
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 2rem 1rem;
+  border: none;
+  background: transparent;
+  overflow-y: auto;
+  .dialog-panel {
+    position: relative;
+    width: fit-content;
+    margin-inline: auto;
+    padding-inline: 2rem;
+    background-color: black;
+    .shows {
+      /* The base .shows rule offsets it for the page grid; undo that in here. */
+      margin-inline-start: 0;
+    }
+  }
+  .closeModalButton {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    border: none;
+    padding: 0;
+    &:focus-visible {
+      background: none;
+      color: var(--color-global-text);
+    }
+    @media (hover: hover) {
+      &:hover {
+        background: none;
+        color: var(--color-global-text);
+      }
+    }
+  }
+}
+/* Yellow scrollbar for the page and the shows dialog. */
+:is(html, #showShowsDialog)::-webkit-scrollbar {
+  width: 14px;
+}
+:is(html, #showShowsDialog)::-webkit-scrollbar-track {
+  background: rgb(0 0 0 / 0.6);
+}
+:is(html, #showShowsDialog)::-webkit-scrollbar-thumb {
+  background: var(--color-global-text);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+@supports not selector(::-webkit-scrollbar) {
+  :is(html, #showShowsDialog) {
+    scrollbar-color: var(--color-global-text) rgb(0 0 0 / 0.6);
+  }
+}
+/* Hide scrollbar in the page beneath - scrollbar from dialog will be visible if necessary. */
+html:has(#showShowsDialog[open]) {
+  overflow: hidden;
+}
+::backdrop {
+    background-color: rgb(0 0 0 / 0.9);
+  }
+@media (max-width: 40rem) {
+  .shows-section .shows-image {
+    grid-column: full;
+    aspect-ratio: 3 / 2;
+    order: 1;
+  }
+  .shows-section .shows {
+    grid-column: content;
+    margin-inline-start: 0;
   }
 }

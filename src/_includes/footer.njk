@@ -1,0 +1,26 @@
+<footer id="connect-and-follow" class="site-footer">
+
+  <h2>CONNECT<br>
+    <span>&amp;</span> FOLLOW</h2>
+  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <div style="display:none;">
+      <input name="bot-field"/>
+    </div>
+
+    <input type="hidden" name="subject" value="Incoming from CCC website."/>
+    
+    <label for="name">
+      Your name:<br>
+      <input autocomplete="name" type="text" name="name" id="name"/>
+    </label>
+    <label for="email">Your email address*:<br>
+      <input autocomplete="email" required type="email" name="email" id="email"/>
+    </label>
+    <label for="message">Send us a message:<br>
+      <textarea rows="8" name="message" id="message"></textarea>
+    </label>
+    <p class="form-instructions"><small>*denotes a required field</small></p>
+    <button class="btn btn--large" type="submit">Send</button>
+
+  </form>
+</footer>
