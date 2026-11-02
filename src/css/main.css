@@ -272,9 +272,9 @@ button {
   grid-column: full;
   display: grid;
   grid-template-columns: subgrid;
-  background: url(/images/hero-cables.webp) no-repeat;
+  background: url(/images/hero-cables-a.jpg) no-repeat;
   background-size: cover;
-  background-position: center;
+  background-position: center 90%;
   position: relative;
   padding-block: clamp(4rem, 13vw, 8rem);
   &::after {
