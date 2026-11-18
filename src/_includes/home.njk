@@ -33,13 +33,17 @@ description: Counterculture Collective is a free community event which seeks to 
     upcoming or not. Use `upcoming(n)` for future shows only. #}
 
     <ul class="shows__list">
-      {% for show in shows | limit(3) %}
+      {% for show in shows | upcoming(3) %}
         <li>
           <h3>{{ show.date | showDate | safe }}</h3>
-          <p>@{{ show.venue }}</p>
+          <p>@ {{ show.venue }}</p>
           <p>{{ show.address | safe }}</p>
           <p class="times">
+            {% if show.signup != "" %}
             <strong>Sign up at {{ show.signup }}, Music begins at {{ show.start }}</strong>
+            {% else %}
+              <strong>Music begins at {{ show.start }}</strong>
+            {% endif %}
           </p>
         </li>
       {% endfor %}
